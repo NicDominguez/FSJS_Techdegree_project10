@@ -2,6 +2,7 @@
 
 // load modules
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes/index.js')
 
@@ -16,6 +17,9 @@ app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
+
+// Enable all CORS Requests
+app.use(cors());
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
