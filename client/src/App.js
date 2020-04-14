@@ -1,19 +1,26 @@
 import React from 'react';
 
-import './App.css';
-
-//Test Case
-const courseData = fetch(`http://localhost:5000/courses`).then(res => res.json()).catch(console.log)
-
-console.log(courseData)
 
 
+import Header from './components/header.js';
 
-function App() {
-  return (
 
-    <ul>check console</ul>
-  );
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <Header></Header>
+      </div>
+      
+    );
+  }
 }
 
 export default App;
