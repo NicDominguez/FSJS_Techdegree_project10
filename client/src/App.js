@@ -3,6 +3,7 @@ import React from 'react';
 
 
 import Header from './components/header.js';
+import Courses from './components/courses.js';
 
 
 class App extends React.Component {
@@ -17,6 +18,7 @@ class App extends React.Component {
     return (
       <div>
         <Header></Header>
+        <Courses></Courses>
       </div>
       
     );
