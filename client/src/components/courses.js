@@ -1,29 +1,49 @@
 import React from 'react';
+import axios from "axios";
 
 class Courses extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            courseList: []
         }
     }
+    
+    componentDidMount() {
+        this.retrieveCourses();
+    }
+
+    // Function to retrieve list of courses
+    retrieveCourses = () => {
+        axios.get(`https://localhost:5000/api/courses`)
+            .then(res => {
+                console.log(res)
+                let courses = []
+                for (let i = 0; i < res.length; i++) {
+                    courses.push(
+                      <div className="grid-33">
+                        <a className="course--module course--link" href="course-detail.html">
+                          <h4 className="course--label">Course</h4>
+                          <h3 className="course--title">{res.title}</h3>
+                        </a>
+                      </div>
+                    );
+                }   
+                this.setState({ courseList: courses });
+            })
+            .catch(error => {
+                console.log('Error fetching and parsing course data', error);
+            });
+    }
+
+
 
     render() {
         return (
             <div>
                 <div className="bounds">
-                    <div className="grid-33"><a className="course--module course--link" href="course-detail.html">
-                        <h4 className="course--label">Course</h4>
-                        <h3 className="course--title">Build a Basic Bookcase</h3>
-                    </a></div>
-                    <div className="grid-33"><a className="course--module course--link" href="course-detail.html">
-                        <h4 className="course--label">Course</h4>
-                        <h3 className="course--title">Learn How to Program</h3>
-                    </a></div>
-                    <div className="grid-33"><a className="course--module course--link" href="course-detail.html">
-                        <h4 className="course--label">Course</h4>
-                        <h3 className="course--title">Learn How to Test Programs</h3>
-                    </a></div>
+                    {this.state.courseList}
                     <div className="grid-33"><a className="course--module course--add--module" href="create-course.html">
                         <h3 className="course--add--title"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                             viewBox="0 0 13 13" className="add">
