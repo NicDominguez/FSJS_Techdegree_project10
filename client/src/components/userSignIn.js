@@ -1,11 +1,41 @@
 import React from 'react';
+import axios from "axios";
+
 
 class UserSignIn extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            emailAddress: "",
+            password: ""
         }
+    }
+
+    // Function to creaete a user in database
+    createUser = () => {
+        axios.get(`http://localhost:5000/api/users`, JSON.stringify({
+           //set authorization header to emailaddress and password in state
+        }))
+            .catch((error) => {
+                console.log("Error updating course data", error);
+            });
+    };
+
+    handleValueChange = (e) => {
+        const name = e.target.name
+        this.setState({ [name]: e.target.value })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.createCourse()
+        this.props.history.push(`/`);
+    }
+
+    handleCancel = (e) => {
+        e.preventDefault()
+        this.props.history.push(`/`);
     }
 
     render() {
@@ -17,14 +47,14 @@ class UserSignIn extends React.Component {
                         <div>
                             <form>
                                 <div>
-                                    <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" value=""/>
+                                    <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" onChange={this.handleValueChange} value={this.state.emailAddress}/>
                                 </div>
                                 <div>
-                                    <input id="password" name="password" type="password" className="" placeholder="Password" value=""/>
+                                    <input id="password" name="password" type="password" className="" placeholder="Password" onChange={this.handleValueChange} value={this.state.password}/>
                                 </div>
                                 <div className="grid-100 pad-bottom">
-                                    <button className="button" type="submit">Sign In</button>
-                                    <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+                                    <button className="button" type="submit" onClick={this.handleSubmit}>Sign In</button>
+                                    <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                                 </div>
                             </form>
                         </div>
