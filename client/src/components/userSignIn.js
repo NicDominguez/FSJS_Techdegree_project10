@@ -1,26 +1,37 @@
-import React from 'react';
-import axios from "axios";
+import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 
-
-class UserSignIn extends React.Component {
+export default class UserSignIn extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             emailAddress: "",
-            password: ""
+            password: "",
+            errors: []
         }
     }
-
-    // Function to creaete a user in database
-    createUser = () => {
-        axios.get(`http://localhost:5000/api/users`, JSON.stringify({
-           //set authorization header to emailaddress and password in state
-        }))
-            .catch((error) => {
-                console.log("Error updating course data", error);
-            });
-    };
+    
+    submit = () => {
+        const { context } = this.props;
+        const { emailAddress, password } = this.state;
+        context.actions
+          .signIn(emailAddress, password)
+          .then((user) => {
+            if (user === null) {
+              this.setState(() => {
+                return { errors: [" Sign-in was unsucessful"] };
+              });
+            } else {
+              this.props.history.push("/");
+              console.log(`user with email address ${emailAddress} is now signed in`)
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.props.history.push("/error");
+          });
+    }
 
     handleValueChange = (e) => {
         const name = e.target.name
@@ -29,7 +40,7 @@ class UserSignIn extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.createCourse()
+        this.submit()
         this.props.history.push(`/`);
     }
 
@@ -39,32 +50,87 @@ class UserSignIn extends React.Component {
     }
 
     render() {
+        const { emailAddress, password, errors, } = this.state;
+
         return (
-            <div>
-                <div className="bounds">
-                    <div className="grid-33 centered signin">
-                        <h1>Sign In</h1>
-                        <div>
-                            <form>
-                                <div>
-                                    <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" onChange={this.handleValueChange} value={this.state.emailAddress}/>
-                                </div>
-                                <div>
-                                    <input id="password" name="password" type="password" className="" placeholder="Password" onChange={this.handleValueChange} value={this.state.password}/>
-                                </div>
-                                <div className="grid-100 pad-bottom">
-                                    <button className="button" type="submit" onClick={this.handleSubmit}>Sign In</button>
-                                    <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                        <p>&nbsp;</p>
-                        <p>Don't have a user account? <a href="sign-up.html">Click here</a> to sign up!</p>
+          <div>
+            <div className="bounds">
+              <div className="grid-33 centered signin">
+                <h1>Sign In</h1>
+                <div>
+                  <ErrorsDisplay errors={errors} />
+                  <form>
+                    <div>
+                      <input
+                        id="emailAddress"
+                        name="emailAddress"
+                        type="text"
+                        className=""
+                        placeholder="Email Address"
+                        onChange={this.handleValueChange}
+                        value={emailAddress}
+                      />
                     </div>
+                    <div>
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        className=""
+                        placeholder="Password"
+                        onChange={this.handleValueChange}
+                        value={password}
+                      />
+                    </div>
+                    <div className="grid-100 pad-bottom">
+                      <button
+                        className="button"
+                        type="submit"
+                        onClick={this.handleSubmit}
+                      >
+                        Sign In
+                      </button>
+                      <button
+                        className="button button-secondary"
+                        onClick={this.handleCancel}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
                 </div>
+                <p>&nbsp;</p>
+                <p>
+                  Don't have a user account?{" "}
+                  <Link to="/signUp">Click here</Link> to sign up!
+                </p>
+              </div>
             </div>
+          </div>
         );
     }
 }
 
-export default UserSignIn;
+/**
+ * ErrorDisplay function - Function that renders errors if there are any.
+ * @param {object} errors - An object of errors. 
+ */
+
+function ErrorsDisplay({ errors }) {
+    let errorsDisplay = null;
+
+    // If there are at least one error render, create the markup
+    if (errors.length) {
+        errorsDisplay = (
+            <div>
+                <h2 className="validation--errors--label">Validation errors</h2>
+                <div className="validation-errors">
+                    <ul>
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+    return errorsDisplay;
+}
