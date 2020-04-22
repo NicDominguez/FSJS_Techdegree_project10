@@ -42,7 +42,8 @@ class UpdateCourse extends Component {
       title: this.state.title,
       description: this.state.description,
       estimatedTime: this.state.estimatedTime,
-      materialsNeeded: this.state.materialsNeeded
+      materialsNeeded: this.state.materialsNeeded,
+      userId: this.props.authenticatedUser.userId
     }))
       .catch((error) => {
         console.log("Error updating course data", error);
@@ -66,11 +67,14 @@ class UpdateCourse extends Component {
   }
 
   render() {
+    const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
+
     return (
       <div>
         <div className="bounds course--detail">
           <h1>Update Course</h1>
           <div>
+            <ErrorsDisplay errors={errors} />
             <form>
               <div className="grid-66">
                 <div className="course--header">
@@ -83,7 +87,7 @@ class UpdateCourse extends Component {
                       className="input-title course--title--input"
                       placeholder="Course title..."
                       onChange={this.handleValueChange}
-                      value={this.state.title}
+                      value={title}
                     />
                   </div>
                   <p>By Joe Smith</p>
@@ -96,7 +100,7 @@ class UpdateCourse extends Component {
                       className=""
                       placeholder="Course description..."
                       onChange={this.handleValueChange}
-                      value={this.state.description}
+                      value={description}
                     ></textarea>
                   </div>
                 </div>
@@ -114,7 +118,7 @@ class UpdateCourse extends Component {
                           className="course--time--input"
                           placeholder="Hours"
                           onChange={this.handleValueChange}
-                          value={this.state.estimatedTime}
+                          value={estimatedTime}
                         />
                       </div>
                     </li>
@@ -127,7 +131,7 @@ class UpdateCourse extends Component {
                           className=""
                           placeholder="List materials..."
                           onChange={this.handleValueChange}
-                          value={this.state.materialsNeeded}
+                          value={materialsNeeded}
                         ></textarea>
                       </div>
                     </li>
@@ -152,5 +156,30 @@ class UpdateCourse extends Component {
     );
   }
 }
+
+/**
+ * ErrorDisplay function - Function that renders errors if there are any.
+ * @param {object} errors - An object of errors. 
+ */
+
+function ErrorsDisplay({ errors }) {
+  let errorsDisplay = null;
+
+  // If there are at least one error render, create the markup
+  if (errors.length) {
+    errorsDisplay = (
+      <div>
+        <h2 className="validation--errors--label">Validation errors</h2>
+        <div className="validation-errors">
+          <ul>
+            {errors.map((error, i) => <li key={i}>{error}</li>)}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+  return errorsDisplay;
+}
+
 
 export default UpdateCourse;

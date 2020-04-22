@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { 
   BrowserRouter, 
   Route, 
@@ -11,23 +11,24 @@ import { Provider } from './Context.js'
 import Header from './components/header.js';
 import Courses from './components/courses.js';
 import CreateCourse from './components/createCourse'
-import CoursesDetail from './components/courseDetail'
+import CourseDetail from './components/courseDetail'
 import UpdateCourse from './components/updateCourse.js';
 import UserSignIn from './components/userSignIn.js';
 import UserSignUp from './components/userSignUp.js';
 import UserSignOut from './components/userSignOut.js';
 import NotFound from './components/notFound.js';
-import withContext from './Context'
-import PrivateRoute from './PrivateRoute'
+import withContext from './Context';
+import PrivateRoute from './PrivateRoute';
 
 const HeaderWithContext = withContext(Header)
 const CoursesWithContext = withContext(Courses)
 const CreateCourseWithContext = withContext(CreateCourse)
+const CourseDetailWithContext = withContext(CourseDetail)
 const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignInWithContext = withContext(UserSignIn)
 const UserSignOutWithContext = withContext(UserSignOut)
 
-class App extends React.Component {
+class App extends Component {
 
   constructor(props) {
     super(props);
@@ -43,13 +44,13 @@ class App extends React.Component {
           <HeaderWithContext></HeaderWithContext>
           <Switch>
             <Redirect exact path="/" to="/courses" />
-            <PrivateRoute exact path="/courses" render={() => <CoursesWithContext/>} />
-            <PrivateRoute exact path="/courses/create" render={(props) => <CreateCourseWithContext {...props} />} />
-            <Route exact path="/courses/:id/update" render={(props) => <UpdateCourse {...props}/>} />
-            <Route exact path="/courses/:id" render={props => <CoursesDetail {...props}/>} />
-            <Route exact path="/signin" render={(props) => <UserSignInWithContext {...props} />} />
-            <Route exact path="/signup" render={(props) => <UserSignUpWithContext {...props} />} />
-            <Route exact path="/signout" render={() => <UserSignOutWithContext />} />
+            <Route exact path="/courses" render={() => <CoursesWithContext/>} />
+            <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
+            <Route exact path="/courses/:id" component={CourseDetailWithContext}/>
+            <Route exact path="/signin" component={UserSignInWithContext} />
+            <Route exact path="/signup" component={UserSignUpWithContext} />
+            <Route exact path="/signout" component={UserSignOutWithContext} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

@@ -32,14 +32,31 @@ class CourseDetail extends Component {
     }
 
     render() {
+        const { context } = this.props;
+        const authUser = context.authenticatedUser;
+        let isAuthor = false
+        if (authUser.id === this.state.courseDetails.userId) {isAuthor = true} 
+
+        console.log("authUser", authUser.id)
+        console.log("state.CourseDetails.userId", this.state.courseDetails.userId)
+
         return (
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
-                        <div className="grid-100"><span><a className="button" href={`/courses/${this.state.courseId}/update`}>Update Course</a><a className="button" href={`/courses/${this.state.courseId}/delete`}>Delete Course</a></span><a
-                            className="button button-secondary" href="/">Return to List</a></div>
+                        <div className="grid-100">
+                            { authUser && isAuthor ?
+                            <span>
+                                <a className="button" href={`/courses/${this.state.courseId}/update`}>Update Course</a>
+                                <a className="button" href={`/courses/${this.state.courseId}/delete`}>Delete Course</a>
+                            </span>
+                            : 
+                            <a className="button" href={`/signin`}>Sign in to update or delete a course</a>
+                            }
+                            
+                            <a className="button button-secondary" href="/">Return to List</a></div>
+                        </div>
                     </div>
-                </div>
                 <div className="bounds course--detail">
                     <div className="grid-66">
                         <div className="course--header">
