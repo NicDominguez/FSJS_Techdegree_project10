@@ -20,7 +20,7 @@ export default class Data {
       options.headers["Authorization"] = `Basic ${encodedCredentials}`;
     }
 
-    return fetch(url, options);
+    return fetch(url, options)
   }
 
   async getUser(username, password) {
@@ -35,17 +35,17 @@ export default class Data {
   }
 
   async createUser(user) {
-    console.log(user)
-    const response = await this.api("/users", "POST", user);
+    const response = await this.api('/users', 'POST', user);
     console.log(response)
-
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400) {
-      return response.json().then((data) => {
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
         return data.errors;
       });
-    } else {
+    }
+    else {
       throw new Error();
     }
   }
