@@ -20,25 +20,31 @@ class CourseDetail extends Component {
     // Function to retrieve list of courses
     retrieveCourseDetails = (id) => {
         axios.get(`http://localhost:5000/api/courses/${id}`)
-            .then(res => {
-                this.setState({ 
-                    courseDetails: res.data,
-                    author: res.data.User
-                });
-            })
-            .catch(error => {
+        .then(res => {
+            this.setState({ 
+                courseDetails: res.data,
+                author: res.data.User
+            }); 
+        })
+        .catch(error => {
+            const err = error.response
+            if (err.status === 400) {
+                console.log(err.data.message)
+                this.props.history.push('/notfound')
+            } else if (err.status === 500) {
+                console.log(err.data.message)
+                this.props.history.push('/error')
+            } else {
                 console.log('Error fetching and parsing course data', error);
-            });
-    }
-
+            }
+        });
+    }    
+    
     render() {
         const { context } = this.props;
         const authUser = context.authenticatedUser;
         let isAuthor = false
         if (authUser.id === this.state.courseDetails.userId) {isAuthor = true} 
-
-        console.log("authUser", authUser.id)
-        console.log("state.CourseDetails.userId", this.state.courseDetails.userId)
 
         return (
             <div>

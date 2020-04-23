@@ -17,7 +17,7 @@ function asyncHandler(cb) {
         } catch (error) {
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
-                res.status(400).json(errors);
+                return res.status(400).json(errors);
             } else {
                return next(error) 
             }  
@@ -151,7 +151,7 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
     const course = await Course.findByPk(req.params.id, {
         include: [{
             model: User,
-            attributes: ['firstName', 'lastName', 'emailAddress']
+            attributes: ['id', 'firstName', 'lastName', 'emailAddress']
         }],
         attributes: ["id", "title", "description", "estimatedTime", "materialsNeeded", "userId"]
     });

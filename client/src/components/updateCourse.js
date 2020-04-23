@@ -2,6 +2,7 @@ import React, { Component }from 'react';
 import axios from "axios";
 
 class UpdateCourse extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +12,7 @@ class UpdateCourse extends Component {
       estimatedTime: "",
       materialsNeeded: "",
       author: [],
+      errors: []
     };
   }
 
@@ -31,8 +33,24 @@ class UpdateCourse extends Component {
           author: res.data.User,
         });
       })
+      .then( () => {
+        const { context } = this.props;
+        const authUserId = context.authenticatedUser.id
+        if (authUserId !== this.state.author.id) {
+          this.props.history.push('/forbidden')
+        }
+      })
       .catch((error) => {
-        console.log("Error fetching and parsing course data", error);
+        const err = error.response
+        if (err.status === 400) {
+          console.log(err.data.message)
+          this.props.history.push('/notfound')
+        } else if (err.status === 500) {
+          console.log(err.data.message)
+          this.props.history.push('/error')
+        } else {
+          console.log('Error fetching and parsing course data', error);
+        }
       });
   };
 
@@ -46,7 +64,17 @@ class UpdateCourse extends Component {
       userId: this.props.authenticatedUser.userId
     }))
       .catch((error) => {
-        console.log("Error updating course data", error);
+        const err = error.response
+        if (err.status === 400) {
+          console.log(err.data.message);
+          this.props.history.push('/notfound');
+        } else if (err.status === 500) {
+          console.log(err.data.message);
+          this.props.history.push('/error');
+        } else {
+          console.log("Error updating course data", error);
+        }
+        
       });
     this.retrieveCourseDetails(id)
   };

@@ -29,7 +29,16 @@ class Courses extends Component {
                 this.setState({ courseList: courses });
             })
             .catch(error => {
-                console.log('Error fetching and parsing course data', error);
+                const err = error.response
+                if (err.status === 400) {
+                    console.log(err.data.message)
+                    this.props.history.push('/notfound')
+                } else if (err.status === 500) {
+                    console.log(err.data.message)
+                    this.props.history.push('/error')
+                } else {
+                    console.log('Error fetching and parsing course data', error);
+                }
             });
     }
 

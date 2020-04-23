@@ -16,6 +16,8 @@ import UpdateCourse from './components/updateCourse.js';
 import UserSignIn from './components/userSignIn.js';
 import UserSignUp from './components/userSignUp.js';
 import UserSignOut from './components/userSignOut.js';
+import Forbidden from './components/forbidden.js'
+import UnhandledError from './components/error.js'
 import NotFound from './components/notFound.js';
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
@@ -23,6 +25,7 @@ import PrivateRoute from './PrivateRoute';
 const HeaderWithContext = withContext(Header)
 const CoursesWithContext = withContext(Courses)
 const CreateCourseWithContext = withContext(CreateCourse)
+const UpdateCourseWithContext = withContext(UpdateCourse)
 const CourseDetailWithContext = withContext(CourseDetail)
 const UserSignUpWithContext = withContext(UserSignUp)
 const UserSignInWithContext = withContext(UserSignIn)
@@ -46,11 +49,14 @@ class App extends Component {
             <Redirect exact path="/" to="/courses" />
             <Route exact path="/courses" render={() => <CoursesWithContext/>} />
             <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
-            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourse} />
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetailWithContext}/>
             <Route exact path="/signin" component={UserSignInWithContext} />
             <Route exact path="/signup" component={UserSignUpWithContext} />
             <Route exact path="/signout" component={UserSignOutWithContext} />
+            <Route exact path="/forbidden" component={Forbidden} />
+            <Route exact path="/error" component={UnhandledError} />
+            <Route exact path="/notfound" component={NotFound} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

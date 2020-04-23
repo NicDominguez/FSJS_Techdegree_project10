@@ -29,22 +29,30 @@ export default class Data {
       return response.json().then((data) => data);
     } else if (response.status === 401) {
       return null;
-    } else {
+    } 
+    else if (response.status === 500) {
+      console.log("500 Internal Server Error")
+      this.props.history.push('/error')
+    } 
+    else {
       throw new Error();
     }
   }
 
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
-    console.log(response)
     if (response.status === 201) {
       return [];
     }
     else if (response.status === 400) {
       return response.json().then(data => {
-        return data.errors;
+        return data;
       });
-    }
+    } 
+    else if (response.status === 500) {
+      console.log("500 Internal Server Error")
+      this.props.history.push('/error')
+    } 
     else {
       throw new Error();
     }

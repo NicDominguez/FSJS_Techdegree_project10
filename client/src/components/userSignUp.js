@@ -6,12 +6,12 @@ export default class UserSignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "",
-            lastName: "",
-            emailAddress: "",
-            password: "",
-            confirmPassword: "",
-            errors: []
+          firstName: "",
+          lastName: "",
+          emailAddress: "",
+          password: "",
+          confirmPassword: "",
+          errors: ["test string errror", "second test string error"]
         }
     }
 
@@ -28,23 +28,25 @@ export default class UserSignUp extends Component {
 
         const user = {firstName, lastName, emailAddress, password }
 
+        // Checks if password is the same as confirmed password
         if (user.password !== this.state.confirmPassword) {
-            this.setState({ errors: [`Password field and Confirm Password field do not match`]})
+            this.setState({ errors: [`Password field and Confirm Password field do not match`] })
         } else {
             context.data.createUser(user)
                 .then( errors => {
-                    if (this.state.errors.length) {
-                        this.setState({ errors });
-                    } else {
-                        context.actions.signIn(emailAddress, password)
-                            .then( () => {
-                                this.props.history.push('/')
-                            })
-                        console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
-                    }
+                  if (errors) {
+                      this.setState({ errors });
+                      console.log(this.state.errors)
+                  } else {
+                      context.actions.signIn(emailAddress, password)
+                          .then( () => {
+                              this.props.history.push('/')
+                          })
+                      console.log(`${firstName} ${lastName} is successfully signed up and authenticated!`);
+                  }
                 })
-                .catch(err => {
-                    console.log(err)
+                .catch(error => {
+                    console.log(error)
                     this.props.history.push('/error');
                 })
         }
