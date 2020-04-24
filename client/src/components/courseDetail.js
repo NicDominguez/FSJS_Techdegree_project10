@@ -44,7 +44,7 @@ class CourseDetail extends Component {
         const { context } = this.props;
         const authUser = context.authenticatedUser;
         let isAuthor = false
-        if (authUser.id === this.state.courseDetails.userId) {isAuthor = true} 
+        if (authUser && authUser.id === this.state.courseDetails.userId) {isAuthor = true} 
 
         return (
             <div>

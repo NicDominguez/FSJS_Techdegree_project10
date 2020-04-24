@@ -46,7 +46,7 @@ const authenticateUser = asyncHandler(async (req, res, next) => {
     // If the user's credentials are available...
     if (credentials) {
         // Attempt to retrieve the user from the data store by their username (i.e. the user's "key" from the Authorization header).
-        const user = await User.findOne({where: {emailAddress: credentials.name} })// TODO Revise req.header
+        const user = await User.findOne({where: {emailAddress: credentials.name} })
         // If a user was successfully retrieved from the data store...
         if (user) {
             // Use the bcryptjs npm package to compare the user's password (from the Authorization header) to the user's password that was retrieved from the data store.    
@@ -88,7 +88,7 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
     const user = req.currentUser;
 
     const authenticatedUser = await User.findByPk(user.id, {
-        attributes: ['id', 'firstName', 'lastName', 'emailAddress']
+        attributes: ['id', 'firstName', 'lastName', 'emailAddress', 'password']
     })
 
     if (authenticatedUser) {

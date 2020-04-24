@@ -34,7 +34,7 @@ export default class UserSignUp extends Component {
         } else {
             context.data.createUser(user)
                 .then( errors => {
-                  if (errors.errors.length) {
+                  if (errors.errors && errors.errors.length) {
                       this.setState({ errors: errors.errors });
                   } else {
                       context.actions.signIn(emailAddress, password)

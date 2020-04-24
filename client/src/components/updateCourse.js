@@ -1,5 +1,6 @@
 import React, { Component }from 'react';
 import axios from "axios";
+import { Base64 } from "js-base64";
 
 class UpdateCourse extends Component {
 
@@ -56,18 +57,33 @@ class UpdateCourse extends Component {
 
   // Function to update course information in database then set state to new information
   updateCourse = (id) => {
+    const { context } = this.props;
+    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    console.log(context.authenticatedUser.password)
+    const password = Base64.atob(context.authenticatedUser.password)
+    
+
+    if (!title || !description) {
+      return this.setState({ errors: ["Please provide a title and description"] })
+    }
+    console.log(context.authenticatedUser)
+
     axios.put(`http://localhost:5000/api/courses/${id}`, JSON.stringify({
-      title: this.state.title,
-      description: this.state.description,
-      estimatedTime: this.state.estimatedTime,
-      materialsNeeded: this.state.materialsNeeded,
-      userId: this.props.authenticatedUser.userId
+      title: title,
+      description: description,
+      estimatedTime: estimatedTime,
+      materialsNeeded: materialsNeeded,
+      userId: context.authenticatedUser.userId,
+      header: {"Authorization": `Basic ${context.authenticatedUser.email} : "${password}"`}
     }))
       .catch((error) => {
         const err = error.response
         if (err.status === 400) {
           console.log(err.data.message);
           this.props.history.push('/notfound');
+        } else if (err.status === 403) {
+          console.log(err.data.message);
+          this.props.history.push('/forbidden');
         } else if (err.status === 500) {
           console.log(err.data.message);
           this.props.history.push('/error');
