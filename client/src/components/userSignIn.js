@@ -15,6 +15,11 @@ export default class UserSignIn extends Component {
     submit = () => {
         const { context } = this.props;
         const { emailAddress, password } = this.state;
+
+        if (!emailAddress || !password) {
+          return this.setState({ errors: ["Please provide an email address and password"] })
+        }
+
         context.actions
           .signIn(emailAddress, password)
           .then((user) => {
