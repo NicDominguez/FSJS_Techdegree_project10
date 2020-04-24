@@ -18,6 +18,11 @@ function asyncHandler(cb) {
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
                 return res.status(400).json(errors);
+            } else if (error.name === 'IncompleteData') {
+                let errorMessages = []
+                errorMessages.push(error.message)
+                let err = { errors: errorMessages}
+                return res.status(400).json(err)
             } else {
                return next(error) 
             }  
@@ -101,6 +106,7 @@ router.post('/users', emailValidationChain, asyncHandler(async (req, res) => {
     // Check if supplied request body has any missing values
     if (!req.body.firstName || !req.body.lastName || !req.body.emailAddress || !req.body.password) {
         throw error = {
+            name: "IncompleteData",
             status: 400,
             message: "Please provide a first name, last name, email address, and password"
         }

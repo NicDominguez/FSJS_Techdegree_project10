@@ -19,9 +19,7 @@ export default class UserSignIn extends Component {
           .signIn(emailAddress, password)
           .then((user) => {
             if (user === null) {
-              this.setState(() => {
-                return { errors: [" Sign-in was unsucessful"] };
-              });
+              this.setState({ errors: [" Sign-in was unsucessful"] })
             } else {
               this.props.history.push("/");
               console.log(`user with email address ${emailAddress} is now signed in`)
@@ -41,7 +39,6 @@ export default class UserSignIn extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.submit()
-        this.props.history.push(`/`);
     }
 
     handleCancel = (e) => {

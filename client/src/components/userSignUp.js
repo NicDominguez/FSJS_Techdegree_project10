@@ -11,7 +11,7 @@ export default class UserSignUp extends Component {
           emailAddress: "",
           password: "",
           confirmPassword: "",
-          errors: ["test string errror", "second test string error"]
+          errors: []
         }
     }
 
@@ -34,9 +34,8 @@ export default class UserSignUp extends Component {
         } else {
             context.data.createUser(user)
                 .then( errors => {
-                  if (errors) {
-                      this.setState({ errors });
-                      console.log(this.state.errors)
+                  if (errors.errors.length) {
+                      this.setState({ errors: errors.errors });
                   } else {
                       context.actions.signIn(emailAddress, password)
                           .then( () => {
@@ -62,7 +61,6 @@ export default class UserSignUp extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.submit()
-        this.props.history.push(`/`);
     }
     
     handleCancel = (e) => {
