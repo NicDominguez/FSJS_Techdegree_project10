@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Returns a forbidden component which authentication has not been provided
 const Forbidden = () => {
     return (
         <div>

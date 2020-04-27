@@ -16,11 +16,12 @@ class UpdateCourse extends Component {
     };
   }
 
+  // Calls the showCourseDetails function when component is mounted
   componentDidMount() {
     this.showCourseDetails(this.state.courseId);
   }
 
-  // Function to retrieve list of courses
+  // Runs the getCourseDetails function from Data.js and sets the state to the response
   showCourseDetails = (id) => {
     const { context } = this.props;
     context.data
@@ -35,6 +36,7 @@ class UpdateCourse extends Component {
         });
       })
       .then(() => {
+        // Checks if current user is the author of the course
         const authUserId = context.authenticatedUser.id;
         if (authUserId !== this.state.author.id) {
           this.props.history.push("/forbidden");
@@ -50,6 +52,7 @@ class UpdateCourse extends Component {
     const { context } = this.props;
     const { title, description, estimatedTime, materialsNeeded } = this.state;  
 
+    // Checks if minimum course information has been provided
     if (!title || !description) {
       return this.setState({ errors: ["Please provide a title and description"] })
     }
@@ -68,18 +71,20 @@ class UpdateCourse extends Component {
         });
   };
   
-
+  // Sets state to key value pairs base on the name of the input field and the value
   handleValueChange = (e) => {
     const name = e.target.name
     this.setState( {[name]: e.target.value} )
   }
 
+  // Calls updateCourse funtion when submit button is clicked and retuns user to course details page
   handleSubmit= (e) => {
     e.preventDefault();
     this.updateCourse(this.state.courseId)
     this.props.history.push(`/courses/${this.state.courseId}`);
   }
 
+  // Returns user to course details page when cancel button is clicked
   handleCancel = (e) => {
     e.preventDefault()
     this.props.history.push(`/courses/${this.state.courseId}`);

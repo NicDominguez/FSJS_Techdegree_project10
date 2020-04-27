@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom'
 
 // Renders NavLink buttons with items from the navItems array
 export default class Header extends Component {
+
+    // Renders the header component with NavLInks and dynamic username based on state.
     render() {
         const { context } = this.props;
         const authUser = context.authenticatedUser;

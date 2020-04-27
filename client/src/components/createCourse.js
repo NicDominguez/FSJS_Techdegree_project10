@@ -14,7 +14,7 @@ export default class CreateCourse extends Component {
     }
     
 
-    // Function to creaete a course in database
+    // Runs the createCourse function from Data.js using the input field data set to state
     submitCourse = () => {
         console.log("submitCourse running in createCourse.js")
         const { context } = this.props;
@@ -28,9 +28,10 @@ export default class CreateCourse extends Component {
             userId: context.authenticatedUser.id
         }
         
+        // Checks if minimum information for course creation has been entered into state
         console.log(courseInfo)
         if (!title || !description) {
-            console.log("if block running")
+
             return this.setState({ errors: ["Please provide a title and description for your course"] })
         }
 
@@ -42,16 +43,19 @@ export default class CreateCourse extends Component {
         this.props.history.push(`/`);    
     };
 
+    // Sets state to key value pairs base on the name of the input field and the value
     handleValueChange = (e) => {
         const name = e.target.name
         this.setState({ [name]: e.target.value })
     }
 
+    // Calls submitCourse funtion when submit button is clicked
     handleSubmit = (e) => {
         e.preventDefault();
         this.submitCourse()
     }
 
+    // Returns to homepage when cancel button is clicked
     handleCancel = (e) => {
         e.preventDefault()
         this.props.history.push(`/`);
@@ -120,7 +124,7 @@ export default class CreateCourse extends Component {
 function ErrorsDisplay({ errors }) {
     let errorsDisplay = null;
 
-    // If there are at least one error render, create the markup
+    // If there are at least one error render, create error display component
     if (errors.length) {
         errorsDisplay = (
             <div>

@@ -12,10 +12,12 @@ export default class UserSignIn extends Component {
         }
     }
     
+    // Runs the signIn funciton from context using the input field values stored in state
     submit = () => {
         const { context } = this.props;
         const { emailAddress, password } = this.state;
 
+        //Checks if email and password values have been stored in state
         if (!emailAddress || !password) {
           return this.setState({ errors: ["Please provide an email address and password"] })
         }
@@ -36,16 +38,19 @@ export default class UserSignIn extends Component {
           });
     }
 
+    // Sets state to key value pairs base on the name of the input field and the value
     handleValueChange = (e) => {
         const name = e.target.name
         this.setState({ [name]: e.target.value })
     }
 
+    // Calls submit funtion when submit button is clicked
     handleSubmit = (e) => {
         e.preventDefault();
         this.submit()
     }
 
+    // Returns to homepage when cancel button is clicked
     handleCancel = (e) => {
         e.preventDefault()
         this.props.history.push(`/`);

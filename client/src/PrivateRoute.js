@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { Consumer } from "./Context";
 
+// Creates a template for the PrivateRoute component that checks for an authenticated user or rediredcts to sign in page
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Consumer>

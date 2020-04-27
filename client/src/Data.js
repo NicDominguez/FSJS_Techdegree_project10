@@ -1,6 +1,7 @@
 import config from './config'
 
 export default class Data {
+  // Creates a template funciton to make a fetch call using supplied options and parameters
   api(path, method = "GET", body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
 
@@ -21,6 +22,7 @@ export default class Data {
     return fetch(url, options)
   }
 
+  // Asyncronous funciton to retrieve userdata from api
   async getUser(username, password) {
     const response = await this.api(`/users`, "GET", null, true, { username, password });
     if (response.status === 200) {
@@ -37,6 +39,7 @@ export default class Data {
     }
   }
 
+  // Asyncronous funciton to submit new user information to api
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
@@ -55,7 +58,8 @@ export default class Data {
       throw new Error();
     }
   }
-    
+
+  // Asyncronous funciton to retrieve course data from api
   async getCourses() {
     const response = await this.api('/courses', 'GET');
     if (response.status === 200) {
@@ -77,14 +81,13 @@ export default class Data {
     }
   }
 
+  // Asyncronous funciton to submit new course information to api
   async createCourse(courseObj, username, password) {
     console.log("createCourse running in data.js")
     const response = await this.api(`/courses`, "POST", courseObj, true, { username, password });
     console.log(response)
     if (response.status === 201) {
-      return response.json().then((data) => {
         return [];
-      });
     } else if (response.status === 400) {
       return response.json().then((data) => {
         return data;
@@ -97,6 +100,7 @@ export default class Data {
     }
   }
 
+  // Asyncronous funciton to retrieve course details data from api
   async getCourseDetails(id) {
     const response = await this.api(`/courses/${id}`, "GET");
     if (response.status === 200) {
@@ -115,13 +119,12 @@ export default class Data {
     }
   }
 
+  // Asyncronous funciton to change course details information in api
   async updateCourseDetails(id, courseObj, username, password ) {
     const response = await this.api(`/courses/${id}`, "PUT", courseObj, true, { username, password });
     console.log(response)
     if (response.status === 204) {
-      return response.json().then((data) => {
-        return [];
-      });
+      return [];
     } else if (response.status === 400) {
       return response.json().then((data) => {
         return data;
@@ -134,6 +137,7 @@ export default class Data {
     }
   }
 
+  // Asyncronous funciton to remove a course entry in the api database
   async deleteCourse(id, username, password) {
     const response = await this.api(`/courses/${id}`, "DELETE", null, true, { username, password });
     console.log(response)

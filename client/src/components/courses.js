@@ -9,6 +9,7 @@ class Courses extends Component {
         }
     }
 
+    // RUn getCourses function from Data.js and create component using response data
     showCourses() {
         const { context } = this.props;
 
@@ -33,7 +34,7 @@ class Courses extends Component {
     }
 
 
-
+    // Call showCourses function upon componenent mounting
     componentDidMount() {
         this.showCourses()
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Returns a Not Found component when no other matching route exists.
 const NotFound = () => {
     return (
         <div>

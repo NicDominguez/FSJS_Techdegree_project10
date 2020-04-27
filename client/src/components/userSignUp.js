@@ -15,7 +15,7 @@ export default class UserSignUp extends Component {
         }
     }
 
-    // Function to submit a user for creation in database
+    // Function to submit a user for creation in database using input field values stored in state
     submit = () => {
         const { context } = this.props;
 
@@ -27,7 +27,7 @@ export default class UserSignUp extends Component {
         } = this.state
 
         const user = {firstName, lastName, emailAddress, password }
-
+        
         // Checks if password is the same as confirmed password
         if (user.password !== this.state.confirmPassword) {
             this.setState({ errors: [`Password field and Confirm Password field do not match`] })
@@ -53,16 +53,19 @@ export default class UserSignUp extends Component {
 
     };
 
+    // Sets state to key value pairs base on the name of the input field and the value
     handleValueChange = (e) => {
         const name = e.target.name
         this.setState({ [name]: e.target.value })
     }
 
+    // Calls submit funtion when submit button is clicked
     handleSubmit = (e) => {
         e.preventDefault();
         this.submit()
     }
     
+    // Returns to homepage when cancel button is clicked
     handleCancel = (e) => {
         e.preventDefault()
         this.props.history.push(`/`);

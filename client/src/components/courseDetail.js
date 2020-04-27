@@ -12,10 +12,12 @@ class CourseDetail extends Component {
     };
   }
 
+  // Upon mounting, run showCourseDetails function
   componentDidMount() {
     this.showCourseDetails(this.state.courseId);
   }
 
+  // Get course details from database and set state to response
   showCourseDetails(id) {
     const { context } = this.props;
 
@@ -32,18 +34,19 @@ class CourseDetail extends Component {
         })
   }
 
+  //Call deleteCourse funtion on current course displayed
   handleDelete = (e) => {
     e.preventDefault();
     this.deleteCourse(this.state.courseId)
   }
 
+  // Run deleteCourse function from Data.js with authentication
   deleteCourse(id) {
     const { context } = this.props;
 
     context.data
       .deleteCourse(id, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
       .then(res => {
-        console.log("from within deleteCourse()", res)
         if (res.length === 0) {
           this.props.history.push("/")
         }
@@ -67,6 +70,7 @@ class CourseDetail extends Component {
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid-100">
+              {/* Show update and delete course buttons if current user is owner of the course otherwise show sign in button */}
               {authUser && isAuthor ? (
                 <span>
                   <Link className="button" to={`/courses/${this.state.courseId}/update`}>
@@ -78,7 +82,7 @@ class CourseDetail extends Component {
                 </span>
               ) : (
                 <a className="button" href={`/signin`}>
-                  Sign in to update or delete a course
+                  Sign in to update or delete this course
                 </a>
               )}
 

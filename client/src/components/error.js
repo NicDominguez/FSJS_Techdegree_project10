@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Returns an error component to display when an error has occured
 const UnhandledError = () => {
     return (
         <div>

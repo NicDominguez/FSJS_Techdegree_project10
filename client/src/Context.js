@@ -6,12 +6,14 @@ const Context = React.createContext();
 
 export class Provider extends Component {
 
+  // Retrieve "authenticatedUser" cookie from browser if available and sets it to state
   state = {
       authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
   };
 
   constructor() {
       super();
+      // Creates a new Data class from the exported Data.js and all associated functions
       this.Data = new Data();
   }
 
@@ -34,6 +36,7 @@ export class Provider extends Component {
     );
   }
 
+  // Runs the getUser funciton from Data.js using the credentials provided by the user in the userSignIn.js component
   signIn = async (username, password) => {
     const user = await this.Data.getUser(username, password);
     if (user !== null) {
@@ -46,6 +49,7 @@ export class Provider extends Component {
     return user
   }
 
+  // Runs the signOut funciton from userSignOut.js
   signOut = () => {
     this.setState({
       authenticatedUser: null
