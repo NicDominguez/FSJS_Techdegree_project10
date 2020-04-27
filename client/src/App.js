@@ -47,7 +47,7 @@ class App extends Component {
           <HeaderWithContext></HeaderWithContext>
           <Switch>
             <Redirect exact path="/" to="/courses" />
-            <Route exact path="/courses" render={() => <CoursesWithContext/>} />
+            <Route exact path="/courses" component={CoursesWithContext} />
             <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
             <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetailWithContext}/>

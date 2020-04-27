@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import axios from "axios";
 
-class CreateCourse extends Component {
+export default class CreateCourse extends Component {
 
     constructor(props) {
         super(props);
@@ -10,20 +9,37 @@ class CreateCourse extends Component {
             description: "",
             estimatedTime: "",
             materialsNeeded: "",
+            errors: []
         }
     }
+    
 
     // Function to creaete a course in database
-    createCourse = () => {
-        axios.post(`http://localhost:5000/api/courses`, JSON.stringify({
-            title: this.state.title,
-            description: this.state.description,
-            estimatedTime: this.state.estimatedTime,
-            materialsNeeded: this.state.materialsNeeded
-        }))
+    submitCourse = () => {
+        console.log("submitCourse running in createCourse.js")
+        const { context } = this.props;
+        const { title, description, estimatedTime, materialsNeeded } = this.state;
+
+        let courseInfo = {
+            title: title,
+            description: description,
+            estimatedTime: estimatedTime,
+            materialsNeeded: materialsNeeded,
+            userId: context.authenticatedUser.id
+        }
+        
+        console.log(courseInfo)
+        if (!title || !description) {
+            console.log("if block running")
+            return this.setState({ errors: ["Please provide a title and description for your course"] })
+        }
+
+        context.data
+            .createCourse(courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
             .catch((error) => {
                 console.log("Error updating course data", error);
             });
+        this.props.history.push(`/`);    
     };
 
     handleValueChange = (e) => {
@@ -33,8 +49,7 @@ class CreateCourse extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.createCourse()
-        this.props.history.push(`/`);
+        this.submitCourse()
     }
 
     handleCancel = (e) => {
@@ -51,15 +66,6 @@ class CreateCourse extends Component {
                     <h1>Create Course</h1>
                     <div>
                         <ErrorsDisplay errors={errors} />
-                        <div>
-                            <h2 className="validation--errors--label">Validation errors</h2>
-                            <div className="validation-errors">
-                                <ul>
-                                    <li>Please provide a value for "Title"</li>
-                                    <li>Please provide a value for "Description"</li>
-                                </ul>
-                            </div>
-                        </div>
                         <form>
                             <div className="grid-66">
                                 <div className="course--header">
@@ -129,6 +135,3 @@ function ErrorsDisplay({ errors }) {
     }
     return errorsDisplay;
 }
-
-
-export default CreateCourse;
