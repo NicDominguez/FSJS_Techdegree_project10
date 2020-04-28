@@ -24,27 +24,30 @@ class UpdateCourse extends Component {
   // Runs the getCourseDetails function from Data.js and sets the state to the response
   showCourseDetails = (id) => {
     const { context } = this.props;
+    const authUserId = context.authenticatedUser.id;
     context.data
       .getCourseDetails(id)
       .then((res) => {
-        this.setState({
-          title: res.title,
-          description: res.description,
-          estimatedTime: res.estimatedTime,
-          materialsNeeded: res.materialsNeeded,
-          author: res.User,
-        });
-      })
-      .then(() => {
-        // Checks if current user is the author of the course
-        const authUserId = context.authenticatedUser.id;
-        if (authUserId !== this.state.author.id) {
-          this.props.history.push("/forbidden");
+        console.log(res)
+        if (!res.message) {
+          this.setState({
+            title: res.title,
+            description: res.description,
+            estimatedTime: res.estimatedTime,
+            materialsNeeded: res.materialsNeeded,
+            author: res.User,
+          });
+          // Checks if current user is the author of the course
+          if (authUserId !== this.state.author.id) {
+            return this.props.history.push("/forbidden");
+          }
+        } else {
+          this.props.history.push("/notfound")
         }
       })
       .catch((error) => {
           console.log("Error fetching and parsing course data", error);
-        });
+      });
   };
 
   // Function to update course information in database then set state to new information

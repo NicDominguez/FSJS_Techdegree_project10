@@ -24,10 +24,14 @@ class CourseDetail extends Component {
     context.data
         .getCourseDetails(id)
         .then((res) => {
-            this.setState({
-            courseDetails: res,
-            author: res.User,
-            });
+            if (!res.message) {
+              this.setState({
+                courseDetails: res,
+                author: res.User,
+              });
+            } else {
+              this.props.history.push("/notfound")
+            }
         })
         .catch((error) => {
             console.log("Error fetching and parsing course data", error);
