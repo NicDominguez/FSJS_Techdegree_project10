@@ -16,7 +16,6 @@ export default class CreateCourse extends Component {
 
     // Runs the createCourse function from Data.js using the input field data set to state
     submitCourse = () => {
-        console.log("submitCourse running in createCourse.js")
         const { context } = this.props;
         const { title, description, estimatedTime, materialsNeeded } = this.state;
 
@@ -27,20 +26,21 @@ export default class CreateCourse extends Component {
             materialsNeeded: materialsNeeded,
             userId: context.authenticatedUser.id
         }
-        
-        // Checks if minimum information for course creation has been entered into state
-        console.log(courseInfo)
-        if (!title || !description) {
-
-            return this.setState({ errors: ["Please provide a title and description for your course"] })
-        }
 
         context.data
             .createCourse(courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
+            .then((res) => {
+                if (res.message) {
+                    return this.setState({ errors: [res.message] })
+                }
+                else {
+                    this.props.history.push(`/`);   
+                }
+            })
             .catch((error) => {
                 console.log("Error updating course data", error);
             });
-        this.props.history.push(`/`);    
+         
     };
 
     // Sets state to key value pairs base on the name of the input field and the value

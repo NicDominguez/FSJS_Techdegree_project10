@@ -83,9 +83,7 @@ export default class Data {
 
   // Asyncronous funciton to submit new course information to api
   async createCourse(courseObj, username, password) {
-    console.log("createCourse running in data.js")
     const response = await this.api(`/courses`, "POST", courseObj, true, { username, password });
-    console.log(response)
     if (response.status === 201) {
         return [];
     } else if (response.status === 400) {
@@ -122,7 +120,6 @@ export default class Data {
   // Asyncronous funciton to change course details information in api
   async updateCourseDetails(id, courseObj, username, password ) {
     const response = await this.api(`/courses/${id}`, "PUT", courseObj, true, { username, password });
-    console.log(response)
     if (response.status === 204) {
       return [];
     } else if (response.status === 400) {
@@ -140,7 +137,6 @@ export default class Data {
   // Asyncronous funciton to remove a course entry in the api database
   async deleteCourse(id, username, password) {
     const response = await this.api(`/courses/${id}`, "DELETE", null, true, { username, password });
-    console.log(response)
     if (response.status === 204) {
         return [];
     } else if (response.status === 400) {

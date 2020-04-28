@@ -52,11 +52,6 @@ class UpdateCourse extends Component {
     const { context } = this.props;
     const { title, description, estimatedTime, materialsNeeded } = this.state;  
 
-    // Checks if minimum course information has been provided
-    if (!title || !description) {
-      return this.setState({ errors: ["Please provide a title and description"] })
-    }
-
     let courseInfo = {
           title: title,
           description: description,
@@ -64,8 +59,16 @@ class UpdateCourse extends Component {
           materialsNeeded: materialsNeeded,
           userId: context.authenticatedUser.userId,
     }
-    console.log(context)
+
     context.data.updateCourseDetails(id, courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
+      .then((res) => {
+        if (res.message) {
+          return this.setState({ errors: [res.message] })
+        }
+        else {
+          this.props.history.push(`/courses/${this.state.courseId}`);
+        }
+      })
       .catch((error) => {
           console.log("Error updating course data", error);
         });
@@ -77,11 +80,10 @@ class UpdateCourse extends Component {
     this.setState( {[name]: e.target.value} )
   }
 
-  // Calls updateCourse funtion when submit button is clicked and retuns user to course details page
+  // Calls updateCourse funtion when submit button is clicked
   handleSubmit= (e) => {
     e.preventDefault();
     this.updateCourse(this.state.courseId)
-    this.props.history.push(`/courses/${this.state.courseId}`);
   }
 
   // Returns user to course details page when cancel button is clicked
