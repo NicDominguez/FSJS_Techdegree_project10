@@ -28,7 +28,6 @@ class UpdateCourse extends Component {
     context.data
       .getCourseDetails(id)
       .then((res) => {
-        console.log(res)
         if (!res.message) {
           this.setState({
             title: res.title,
