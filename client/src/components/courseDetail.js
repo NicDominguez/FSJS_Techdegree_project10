@@ -86,9 +86,9 @@ class CourseDetail extends Component {
                 </Link>
               )}
 
-              <a className="button button-secondary" href="/">
+              <Link className="button button-secondary" to="/">
                 Return to List
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@ class CourseDetail extends Component {
               </p>
             </div>
             <div className="course--description">
-              <ReactMarkdown source={this.state.courseDetails.description} />
+              <ReactMarkdown source={this.state.courseDetails.description}/>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -116,7 +116,7 @@ class CourseDetail extends Component {
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
-                  <ReactMarkdown source={this.state.courseDetails.materialsNeeded} />
+                    <ReactMarkdown source={this.state.courseDetails.materialsNeeded} />
                 </li>
               </ul>
             </div>

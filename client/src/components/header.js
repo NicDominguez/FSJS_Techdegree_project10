@@ -30,7 +30,7 @@ const Header = (props) => {
                     }
                 </div>
             </div>
-            <hr />
+            <hr/>
         </div>
     );
 }
