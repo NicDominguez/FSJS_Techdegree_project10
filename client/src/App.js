@@ -8,17 +8,17 @@ import {
 
 
 import { Provider } from './Context.js'
-import Header from './components/Header1.js';
-import Courses from './components/Courses1.js';
-import CreateCourse from './components/CreateCourse1'
-import CourseDetail from './components/CourseDetail1'
-import UpdateCourse from './components/UpdateCourse1.js';
-import UserSignIn from './components/UserSignIn1.js';
-import UserSignUp from './components/UserSignUp1.js';
-import UserSignOut from './components/UserSignOut1.js';
-import Forbidden from './components/Forbidden1.js'
-import UnhandledError from './components/UnhandledError1.js'
-import NotFound from './components/NotFound1.js';
+import Header from './components/Header.js';
+import Courses from './components/Courses.js';
+import CreateCourse from './components/CreateCourse'
+import CourseDetail from './components/CourseDetail'
+import UpdateCourse from './components/UpdateCourse.js';
+import UserSignIn from './components/UserSignIn.js';
+import UserSignUp from './components/UserSignUp.js';
+import UserSignOut from './components/UserSignOut.js';
+import Forbidden from './components/Forbidden.js'
+import UnhandledError from './components/UnhandledError.js'
+import NotFound from './components/NotFound.js';
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 
