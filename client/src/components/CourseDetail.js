@@ -24,14 +24,15 @@ class CourseDetail extends Component {
     context.data
         .getCourseDetails(id)
         .then((res) => {
-            if (!res.message) {
-              this.setState({
-                courseDetails: res,
-                author: res.User,
-              });
-            } else {
-              this.props.history.push("/notfound")
-            }
+          if (res.status === 500) { this.props.history.push(`/error`); }
+          if (!res.message) {
+            this.setState({
+              courseDetails: res,
+              author: res.User,
+            });
+          } else {
+            this.props.history.push("/notfound")
+          }
         })
         .catch((error) => {
             console.log("Error fetching and parsing course data", error);
@@ -51,6 +52,7 @@ class CourseDetail extends Component {
     context.data
       .deleteCourse(id, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
       .then(res => {
+        if (res.status === 500) { this.props.history.push(`/error`); }
         if (res.length === 0) {
           this.props.history.push("/")
         }

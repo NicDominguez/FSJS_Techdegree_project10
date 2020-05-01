@@ -30,6 +30,7 @@ export default class CreateCourse extends Component {
         context.data
             .createCourse(courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
             .then((res) => {
+                if (res.status === 500) { this.props.history.push(`/error`); }
                 if (res.message) {
                     return this.setState({ errors: [res.message] })
                 }

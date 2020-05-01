@@ -15,7 +15,8 @@ class Courses extends Component {
         const { context } = this.props;
 
         context.data.getCourses()
-          .then((res) => {
+          .then( (res) => {
+            if (res.status === 500) {this.props.history.push(`/error`);}
             const courses = res.map((course) => (
               <div className="grid-33" key={course.id}>
                 <Link

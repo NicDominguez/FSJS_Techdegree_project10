@@ -33,9 +33,10 @@ export default class UserSignUp extends Component {
             this.setState({ errors: [`Password field and Confirm Password field do not match`] })
         } else {
             context.data.createUser(user)
-                .then( errors => {
-                  if (errors.errors && errors.errors.length) {
-                      this.setState({ errors: errors.errors });
+                .then( res => {
+                  if (res.status === 500) { this.props.history.push(`/error`); }
+                  if (res.errors && res.errors.length) {
+                      this.setState({ errors: res.errors });
                   } else {
                       context.actions.signIn(emailAddress, password)
                           .then( () => {
