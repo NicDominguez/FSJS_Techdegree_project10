@@ -28,7 +28,7 @@ export default class UserSignIn extends Component {
             if (user === null) {
               this.setState({ errors: [" Sign-in was unsucessful"] })
             } else {
-              this.props.history.push("/");
+              this.props.history.goBack()
               console.log(`user with email address ${emailAddress} is now signed in`)
             }
           })
