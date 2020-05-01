@@ -34,7 +34,6 @@ export default class UserSignUp extends Component {
         } else {
             context.data.createUser(user)
                 .then( res => {
-                  if (res.status === 500) { this.props.history.push(`/error`); }
                   if (res.errors && res.errors.length) {
                       this.setState({ errors: res.errors });
                   } else {

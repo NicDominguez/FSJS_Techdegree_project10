@@ -24,7 +24,6 @@ class CourseDetail extends Component {
     context.data
         .getCourseDetails(id)
         .then((res) => {
-          if (res.status === 500) { this.props.history.push(`/error`); }
           if (!res.message) {
             this.setState({
               courseDetails: res,
@@ -35,7 +34,8 @@ class CourseDetail extends Component {
           }
         })
         .catch((error) => {
-            console.log("Error fetching and parsing course data", error);
+          console.log("Error fetching and parsing course data", error);
+          this.props.history.push(`/error`);
         })
   }
 
@@ -52,13 +52,13 @@ class CourseDetail extends Component {
     context.data
       .deleteCourse(id, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
       .then(res => {
-        if (res.status === 500) { this.props.history.push(`/error`); }
         if (res.length === 0) {
           this.props.history.push("/")
         }
       })
       .catch((error) => {
         console.log("Error deleting course data", error);
+        this.props.history.push(`/error`);
       })
   }
 

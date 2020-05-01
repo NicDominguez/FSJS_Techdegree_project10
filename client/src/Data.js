@@ -32,7 +32,7 @@ export default class Data {
     } 
     else if (response.status === 500) {
       console.log("500 Internal Server Error")
-      return response
+      throw new Error();
     } 
     else {
       throw new Error();
@@ -52,7 +52,7 @@ export default class Data {
     } 
     else if (response.status === 500) {
       console.log("500 Internal Server Error")
-      return response
+      throw new Error();
     } 
     else {
       throw new Error();
@@ -74,7 +74,7 @@ export default class Data {
     } 
     else if (response.status === 500) {
       console.log("500 Internal Server Error")
-      return response
+      throw new Error();
     } 
     else {
       throw new Error();
@@ -92,7 +92,7 @@ export default class Data {
       });
     } else if (response.status === 500) {
       console.log("500 Internal Server Error");
-      return response
+      throw new Error();
     } else {
       throw new Error();
     }
@@ -111,7 +111,7 @@ export default class Data {
       });
     } else if (response.status === 500) {
       console.log("500 Internal Server Error");
-      return response
+      throw new Error();
     } else {
       throw new Error();
     }

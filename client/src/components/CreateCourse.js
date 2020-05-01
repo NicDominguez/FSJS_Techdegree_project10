@@ -30,7 +30,6 @@ export default class CreateCourse extends Component {
         context.data
             .createCourse(courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
             .then((res) => {
-                if (res.status === 500) { this.props.history.push(`/error`); }
                 if (res.message) {
                     return this.setState({ errors: [res.message] })
                 }
@@ -40,6 +39,7 @@ export default class CreateCourse extends Component {
             })
             .catch((error) => {
                 console.log("Error updating course data", error);
+                this.props.history.push(`/error`);
             });
          
     };
@@ -63,6 +63,7 @@ export default class CreateCourse extends Component {
     }
 
     render() {
+        const { context } = this.props;
         const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
 
         return (
@@ -78,7 +79,7 @@ export default class CreateCourse extends Component {
                                     <div>
                                         <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." onChange={this.handleValueChange} value={title}/>
                                     </div>
-                                    <p>By Joe Smith</p>
+                                    <p>By {context.authenticatedUser.firstName} {context.authenticatedUser.lastName}</p>
                                 </div>
                                 <div className="course--description">
                                     <div>

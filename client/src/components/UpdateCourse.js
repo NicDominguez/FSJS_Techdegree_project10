@@ -28,7 +28,6 @@ class UpdateCourse extends Component {
     context.data
       .getCourseDetails(id)
       .then((res) => {
-        if (res.status === 500) { this.props.history.push(`/error`); }
         if (!res.message) {
           this.setState({
             title: res.title,
@@ -47,6 +46,7 @@ class UpdateCourse extends Component {
       })
       .catch((error) => {
           console.log("Error fetching and parsing course data", error);
+          this.props.history.push(`/error`);
       });
   };
 
@@ -65,7 +65,6 @@ class UpdateCourse extends Component {
 
     context.data.updateCourseDetails(id, courseInfo, context.authenticatedUser.emailAddress, context.authenticatedUser.password)
       .then((res) => {
-        if (res.status === 500) { this.props.history.push(`/error`); }
         if (res.message) {
           return this.setState({ errors: [res.message] })
         }
@@ -75,6 +74,7 @@ class UpdateCourse extends Component {
       })
       .catch((error) => {
           console.log("Error updating course data", error);
+          this.props.history.push(`/error`);
         });
   };
   

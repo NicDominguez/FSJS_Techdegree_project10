@@ -16,7 +16,6 @@ class Courses extends Component {
 
         context.data.getCourses()
           .then( (res) => {
-            if (res.status === 500) {this.props.history.push(`/error`);}
             const courses = res.map((course) => (
               <div className="grid-33" key={course.id}>
                 <Link
@@ -32,6 +31,7 @@ class Courses extends Component {
           })
           .catch((error) => {
             console.log("Error fetching and parsing course data", error);
+            this.props.history.push(`/error`);
           });
     }
 
